@@ -167,18 +167,18 @@ export async function chooseOptimizerModel(
   }
 
   if (ctx.hasUI && ctx.ui.select) {
-    const options = [
-      ...availableModelItems(available, current).map(
-        (item) => `${item.label} — ${item.description}`,
-      ),
-      "Cancel",
-    ];
-    const choice = await ctx.ui.select("Select optimizer model", options);
+    // Build a stable mapping from display label -> model value so we can match
+    // on the unique provider/model key after selection, avoiding fragility
+    // from string-concatenation parsing.
+    const items = availableModelItems(available, current);
+    const choiceLabels = items.map((item) => `${item.label} — ${item.description}`);
+    choiceLabels.push("Cancel");
+
+    const choice = await ctx.ui.select("Select optimizer model", choiceLabels);
     if (!choice || choice === "Cancel") return undefined;
-    const matched = availableModelItems(available, current).find((item) =>
-      choice.startsWith(`${item.label} — ${item.description}`),
-    );
-    return matched?.value;
+
+    const selectedIndex = choiceLabels.indexOf(choice);
+    return selectedIndex >= 0 ? items[selectedIndex]?.value : undefined;
   }
 
   return undefined;

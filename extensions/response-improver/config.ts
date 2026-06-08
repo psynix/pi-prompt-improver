@@ -9,6 +9,18 @@ import type {
   ResponseImproverConfig,
 } from "./types";
 
+// Config is stored as a user-local file (not pi.appendEntry) because these are
+// user-level settings that should:
+//   - Survive session deletion and /new
+//   - Apply across all projects (not per-session)
+//   - Be shareable between concurrent pi instances
+// pi.appendEntry is designed for per-session branching state; user configuration
+// is intentionally kept outside that lifecycle.
+//
+// The path lives under `~/.pi/agent/` (Pi's own agent config directory) in a
+// unique subdirectory per extension to avoid collisions and keep related data
+// together. An atomic-write strategy (temp file + rename) protects against
+// partial writes from crashes or concurrent access.
 export const CONFIG_PATH = join(homedir(), ".pi", "agent", "response-improver", "config.json");
 
 export const DEFAULT_CONFIG: ResponseImproverConfig = {

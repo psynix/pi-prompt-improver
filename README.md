@@ -6,7 +6,7 @@ A starter for creating a Vite+ monorepo.
 
 This project includes the **Response Improver** extension for Pi — it registers `/improve` and `/improver` commands that use an optimizer model to enhance task prompts before sending them to the active model.
 
-The extension is auto-discovered via the `pi` field in `package.json`:
+The extension is auto-discovered via the `pi` field in `package.json`. For full documentation see `extensions/response-improver/README.md`.
 
 ```json
 "pi": {
@@ -24,8 +24,6 @@ The extension is auto-discovered via the `pi` field in `package.json`:
 | `/improver model <provider/model>` | Set the optimizer model                                     |
 | `/improver preview`                | Preview/edit before execution (default)                     |
 | `/improver auto`                   | Auto-run optimized prompts                                  |
-
-See `extensions/response-improver/README.md` for full documentation.
 
 ## Development
 

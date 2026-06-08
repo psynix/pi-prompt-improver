@@ -35,10 +35,12 @@ export interface UiLike {
   custom?<T>(factory: (...args: any[]) => any, options?: Record<string, unknown>): Promise<T>;
 }
 
+export type PiMode = "tui" | "rpc" | "json" | "print";
+
 export interface CommandContextLike {
   ui: UiLike;
   hasUI?: boolean;
-  mode?: string;
+  mode?: PiMode;
   model?: OptimizerModel;
   modelRegistry: {
     find(provider: string, modelId: string): OptimizerModel | undefined;

@@ -1,4 +1,5 @@
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
+import type { AutocompleteItem } from "@earendil-works/pi-tui";
 import { formatModelRef, loadConfig, parseModelRef, saveConfig, withConfig } from "./config";
 import { chooseOptimizerModel } from "./model-picker";
 import { generateOptimizedPrompt, type CompleteAdapter } from "./optimizer";
@@ -251,6 +252,22 @@ export function registerCommands(pi: ExtensionAPI, deps: CommandDeps = {}) {
 
   pi.registerCommand("improver", {
     description: "Configure Response Improver",
+    getArgumentCompletions: (prefix: string): AutocompleteItem[] | null => {
+      const subcommands = [
+        { value: "status", label: "status", description: "Show current settings" },
+        {
+          value: "model ",
+          label: "model ",
+          description: "Set optimizer model (e.g. model deepseek/deepseek-v4-pro)",
+        },
+        { value: "preview", label: "preview", description: "Switch to preview/edit mode" },
+        { value: "auto", label: "auto", description: "Switch to auto-run mode" },
+        { value: "help", label: "help", description: "Show help text" },
+      ];
+      if (!prefix) return subcommands;
+      const filtered = subcommands.filter((c) => c.value.startsWith(prefix));
+      return filtered.length > 0 ? filtered : null;
+    },
     handler: async (args: string, ctx: ExtensionCommandContext) => {
       await handleImprover(ctx, args, deps);
     },
