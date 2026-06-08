@@ -102,6 +102,14 @@ export async function chooseOptimizerModel(
         list.setFilter(searchText);
       }
 
+      function matchesFilter(item: SelectItem, query: string): boolean {
+        const lower = query.toLowerCase();
+        return (
+          item.label.toLowerCase().includes(lower) ||
+          (item.description ?? "").toLowerCase().includes(lower)
+        );
+      }
+
       renderSearchBox();
 
       return {
@@ -155,14 +163,6 @@ export async function chooseOptimizerModel(
           return true;
         },
       };
-
-      function matchesFilter(item: SelectItem, query: string): boolean {
-        const lower = query.toLowerCase();
-        return (
-          item.label.toLowerCase().includes(lower) ||
-          (item.description ?? "").toLowerCase().includes(lower)
-        );
-      }
     });
   }
 

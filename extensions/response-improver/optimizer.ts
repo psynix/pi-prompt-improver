@@ -1,4 +1,5 @@
 import { complete, type Message } from "@earendil-works/pi-ai";
+import { extractErrorMessage } from "./config";
 import type {
   CommandContextLike,
   OptimizeResult,
@@ -123,7 +124,7 @@ export async function generateOptimizedPrompt(
     if (options.signal?.aborted) {
       return { ok: false, reason: "aborted", message: "Optimizer generation was cancelled." };
     }
-    const message = redactSensitiveError(error instanceof Error ? error.message : String(error));
+    const message = redactSensitiveError(extractErrorMessage(error));
     return { ok: false, reason: "error", message: `Optimizer generation failed: ${message}` };
   }
 }

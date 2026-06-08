@@ -1,6 +1,13 @@
 import type { ExtensionAPI, ExtensionCommandContext } from "@earendil-works/pi-coding-agent";
 import type { AutocompleteItem } from "@earendil-works/pi-tui";
-import { formatModelRef, loadConfig, parseModelRef, saveConfig, withConfig } from "./config";
+import {
+  extractErrorMessage,
+  formatModelRef,
+  loadConfig,
+  parseModelRef,
+  saveConfig,
+  withConfig,
+} from "./config";
 import { chooseOptimizerModel } from "./model-picker";
 import { generateOptimizedPrompt, type CompleteAdapter } from "./optimizer";
 import type { CommandContextLike, ExecutionMode, PiLike, ResponseImproverConfig } from "./types";
@@ -52,7 +59,7 @@ async function setOptimizerModel(
   try {
     await deps.saveConfig(next);
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+    const message = extractErrorMessage(error);
     ctx.ui.notify(`Failed to save optimizer model setting: ${message}`, "error");
     return config;
   }
@@ -83,7 +90,7 @@ async function setExecutionMode(
   try {
     await deps.saveConfig(next);
   } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
+    const message = extractErrorMessage(error);
     ctx.ui.notify(`Failed to save execution mode setting: ${message}`, "error");
     return config;
   }
@@ -149,7 +156,7 @@ export async function handleImprove(
     }
   }
 
-  if (/^\/improver?\b/i.test(finalPrompt.trim())) {
+  if (/^\/improver?\b/i.test(finalPrompt)) {
     ctx.ui.notify(
       "Response Improver stopped because the optimized prompt would invoke /improve recursively.",
       "warning",
