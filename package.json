@@ -3,9 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "workspaces": [
-    "packages/*",
-    "apps/*",
-    "tools/*"
+    "extensions/*"
   ],
   "type": "module",
   "scripts": {
@@ -14,7 +12,10 @@
     "prepare": "vp config"
   },
   "devDependencies": {
-    "vite-plus": "catalog:"
+    "@earendil-works/pi-ai": "^0.79.0",
+    "@earendil-works/pi-coding-agent": "^0.79.0",
+    "@earendil-works/pi-tui": "^0.79.0",
+    "vite-plus": "^0.1.24"
   },
   "overrides": {
     "vite": "catalog:",
@@ -28,5 +29,10 @@
     "vite": "npm:@voidzero-dev/vite-plus-core@latest",
     "vitest": "npm:@voidzero-dev/vite-plus-test@latest",
     "vite-plus": "latest"
+  },
+  "pi": {
+    "extensions": [
+      "./extensions/response-improver/index.ts"
+    ]
   }
 }
