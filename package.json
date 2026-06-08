@@ -1,11 +1,29 @@
 {
-  "name": "preparation-despite",
-  "version": "0.0.0",
-  "private": true,
-  "workspaces": [
-    "extensions/*"
+  "name": "pi-prompt-improver",
+  "version": "0.1.1",
+  "description": "Pi Agent extension that improves prompts with a configurable optimizer model before execution.",
+  "keywords": [
+    "pi-package"
+  ],
+  "homepage": "https://github.com/psynix/pi-prompt-improver#readme",
+  "bugs": {
+    "url": "https://github.com/psynix/pi-prompt-improver/issues"
+  },
+  "license": "MIT",
+  "author": "psynix",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/psynix/pi-prompt-improver.git"
+  },
+  "files": [
+    "README.md",
+    "LICENSE",
+    "extensions/"
   ],
   "type": "module",
+  "exports": {
+    ".": "./extensions/response-improver/index.ts"
+  },
   "scripts": {
     "ready": "vp check && vp run -r test && vp run -r build",
     "dev": "vp run website#dev",
@@ -16,6 +34,11 @@
     "@earendil-works/pi-coding-agent": "^0.79.0",
     "@earendil-works/pi-tui": "^0.79.0",
     "vite-plus": "^0.1.24"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-ai": "^0.79.0",
+    "@earendil-works/pi-coding-agent": "^0.79.0",
+    "@earendil-works/pi-tui": "^0.79.0"
   },
   "overrides": {
     "vite": "catalog:",
